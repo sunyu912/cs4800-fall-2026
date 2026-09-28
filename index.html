@@ -60,21 +60,49 @@
     <ul id="results"></ul>
 
     <script>
-        async function search() {
-            // get the input value from the input box
-            let budget = document.getElementById("budget").value;
-            // make an HTTP call to the server to fetch the search result
-            let response = await fetch("/search_mongo/" + budget);
-            // parse the result
-            let foods = await response.json();
 
-            // display the result in the list
-            let ul = document.getElementById("results");
-            ul.innerHTML = "";
-            for (let food of foods) {
-                ul.innerHTML += "<li>" + food.name + " - $" + food.price + "</li>";
-            }
+    async function search() {
+
+        // get the input value
+
+        let budget = document.getElementById("budget").value.trim();
+
+        // validate the input
+
+        if (budget === "" || isNaN(budget) || Number(budget) < 0) {
+
+            alert("Please enter a valid price.");
+
+            return;
+
         }
-    </script>
+
+        // convert to number
+
+        budget = Number(budget);
+
+        // make an HTTP call to the server
+
+        let response = await fetch("/search_mongo/" + budget);
+
+        // parse the result
+
+        let foods = await response.json();
+
+        // display the result
+
+        let ul = document.getElementById("results");
+
+        ul.innerHTML = "";
+
+        for (let food of foods) {
+
+            ul.innerHTML += "<li>" + food.name + " - $" + food.price + "</li>";
+
+        }
+
+    }
+
+</script>
 </body>
 </html>

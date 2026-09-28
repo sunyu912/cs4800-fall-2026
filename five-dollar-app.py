@@ -45,6 +45,7 @@ def search_food_items(budget):
 
 @app.route("/search_mongo/<budget>")
 def search_food_items_mongo(budget):
+
     budget = float(budget)
     foods = foods_collection.find(
         {"price": {"$lte": budget}},
